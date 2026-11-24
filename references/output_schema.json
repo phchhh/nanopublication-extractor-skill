@@ -1,0 +1,378 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.example/nanopublication-result.schema.json",
+  "title": "Nanopublication extraction result",
+  "type": "object",
+  "required": [
+    "case_id",
+    "status",
+    "assertions",
+    "sources",
+    "uncertainties",
+    "change_log",
+    "validation"
+  ],
+  "properties": {
+    "case_id": {
+      "type": [
+        "string",
+        "number"
+      ]
+    },
+    "status": {
+      "enum": [
+        "success",
+        "partial",
+        "unable"
+      ]
+    },
+    "assertions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/assertion"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "uncertainties": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/uncertainty"
+      }
+    },
+    "change_log": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/change"
+      }
+    },
+    "validation": {
+      "type": "object",
+      "required": [
+        "valid",
+        "errors",
+        "warnings"
+      ],
+      "properties": {
+        "valid": {
+          "type": "boolean"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "task_output": {},
+    "answer": {},
+    "translation": {},
+    "structured_output": {}
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "file",
+        "title",
+        "authors",
+        "year",
+        "version",
+        "identifier"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "year": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "identifier": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "page_count": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "retrieval": {
+          "type": "string"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "quote",
+        "source_id",
+        "relation",
+        "evidence_type",
+        "location"
+      ],
+      "properties": {
+        "quote": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "relation": {
+          "enum": [
+            "supports",
+            "refutes",
+            "qualifies",
+            "contextualizes"
+          ]
+        },
+        "evidence_type": {
+          "enum": [
+            "direct",
+            "indirect",
+            "contextual"
+          ]
+        },
+        "location": {
+          "type": "object",
+          "required": [
+            "page",
+            "section",
+            "paragraph",
+            "char_start",
+            "char_end"
+          ],
+          "properties": {
+            "page": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "section": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "paragraph": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "char_start": {
+              "type": "integer"
+            },
+            "char_end": {
+              "type": "integer"
+            },
+            "visual_anchor": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "assertion": {
+      "type": "object",
+      "required": [
+        "assertion_id",
+        "np_id",
+        "assertion",
+        "subject",
+        "relation",
+        "relation_type",
+        "object",
+        "scope",
+        "evidence",
+        "provenance",
+        "confidence",
+        "quality_flags"
+      ],
+      "properties": {
+        "assertion_id": {
+          "type": "string"
+        },
+        "np_id": {
+          "type": "string"
+        },
+        "assertion": {
+          "type": "object",
+          "required": [
+            "text",
+            "language"
+          ],
+          "properties": {
+            "text": {
+              "type": "string",
+              "minLength": 1
+            },
+            "language": {
+              "type": "string"
+            }
+          }
+        },
+        "subject": {
+          "type": "string"
+        },
+        "relation": {
+          "type": "string"
+        },
+        "relation_type": {
+          "enum": [
+            "increase",
+            "decrease",
+            "no_change",
+            "positive_association",
+            "negative_association",
+            "association",
+            "causal",
+            "comparison",
+            "prediction",
+            "method",
+            "definition",
+            "limitation",
+            "other"
+          ]
+        },
+        "object": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "object"
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "required": [
+            "source_id",
+            "file",
+            "identifier"
+          ]
+        },
+        "confidence": {
+          "type": "object",
+          "required": [
+            "score",
+            "reason"
+          ],
+          "properties": {
+            "score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "quality_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "uncertainty": {
+      "type": "object",
+      "required": [
+        "code",
+        "message",
+        "handoff"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "handoff": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "change": {
+      "type": "object",
+      "required": [
+        "change_id",
+        "action",
+        "detail",
+        "timestamp"
+      ],
+      "properties": {
+        "change_id": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}
