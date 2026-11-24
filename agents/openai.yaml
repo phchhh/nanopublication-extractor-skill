@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nanopublication Extractor"
+  short_description: "Atomic claims with exact source evidence and provenance."
+  default_prompt: "Use $nanopublication-extractor to turn the supplied research material into validated, source-traceable nanopublication assertions and an honest result.json."
